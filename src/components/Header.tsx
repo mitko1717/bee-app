@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { MENU } from "./menu";
+import { Link } from 'react-router-dom';
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -12,7 +13,7 @@ const Header = () => {
   return (
     <>
       {/* Mobile Menu */}
-      <nav className="absolute z-20 h-full w-full text-gray-100 flex items-center justify-between md:hidden">
+      <nav className={`absolute z-20 ${menuOpen && "h-full"} w-full text-gray-100 flex items-center justify-between md:hidden`}>
         <div className="flex items-center w-full">
           <button
             className="text-white focus:outline-none absolute top-0 left-0 p-2 bg-grey bg-opacity-50"
@@ -20,6 +21,11 @@ const Header = () => {
           >
             {menuOpen ? <CloseBtn /> : <OpenBtn />}
           </button>
+
+          <div className="absolute w-20 flex justify-center items-center top-7 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+            <BeeIcon /> <p className="text-brown text-xl font-bold">bee</p>
+          </div>
+
           {menuOpen && (
             <div className="h-[100vh] bg-darkOrange text-brown flex flex-col justify-center items-center mx-auto w-full gap-y-4">
               {MENU.map((item) => (
@@ -27,13 +33,14 @@ const Header = () => {
                   className=" w-full flex flex-col text-center"
                   key={item.title}
                 >
-                  <a
-                    href="#"
+                  <Link to={item.path} className="text-3xl cursor-pointer" onClick={() => showOptionsHandler(item.title)}>{item.title}</Link>
+                  {/* <a
+                    href={item.path}
                     className="text-3xl cursor-pointer"
                     onClick={() => showOptionsHandler(item.title)}
                   >
                     {item.title}
-                  </a>
+                  </a> */}
                   {isOpenOptions === item.title && item.isOptions && (
                     <ul className="mx-auto">
                       {item.options?.map((opt) => (
@@ -63,8 +70,9 @@ const Header = () => {
       {/* Header */}
       <header className="h-[100px] w-full bg-darkOrange hidden md:block md:py-4 md:px-6">
         <div className="flex mx-auto h-full justify-center items-center text-brown gap-x-2">
-          <div>
-            <BeeIcon />
+          <div className="flex justify-center items-center mr-16">
+            <BeeIcon /> 
+            <p className="font-bold text-xl">bee</p>
           </div>
           {MENU.map((item) => (
             <div
@@ -73,13 +81,14 @@ const Header = () => {
               } p-1`}
               key={item.title}
             >
-              <a
-                href="#"
+              <Link to={item.path} className="text-2xl cursor-pointer" onClick={() => showOptionsHandler(item.title)}>{item.title}</Link>
+              {/* <a
+                href={item.path}
                 className="text-2xl cursor-pointer"
                 onClick={() => showOptionsHandler(item.title)}
               >
                 {item.title}
-              </a>
+              </a> */}
               {isOpenOptions === item.title && item.isOptions && (
                 <ul className="absolute justify-center gap-x-6 w-80 -bottom-[6rem] -left-6 flex bg-white border border-[#c8c1c1] py-2 px-4">
                   {item.options?.map((opt) => (
@@ -101,7 +110,7 @@ const Header = () => {
               )}
             </div>
           ))}
-          <div className="text-center text-2xl ml-4">Регистрация</div>
+          <div className="text-center text-2xl ml-16">Регистрация</div>
         </div>
       </header>
     </>
@@ -130,15 +139,9 @@ export const OpenBtn = () => (
 );
 
 export const BeeIcon = () => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    stroke-width="2"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-  >
-    <path d="M16.913 9.84c-.506-2.008-2.074-3.471-4.013-3.724l-1.291-1.972a.5.5 0 0 0-.77 0l-1.291 1.972a5.017 5.017 0 0 0-4.013 3.724 3.513 3.513 0 0 0-1.193 2.674 3.44 3.44 0 0 0 1.049 2.43c.64.58 1.455.88 2.307.88.853 0 1.667-.3 2.307-.88a3.44 3.44 0 0 0 1.05-2.43 3.512 3.512 0 0 0-1.193-2.673M18.5 15a3.5 3.5 0 0 1-.835 2.266c-.553.61-1.292 1.068-2.11 1.315a4.64 4.64 0 0 1-2.556 0 4.077 4.077 0 0 1-2.11-1.315A3.5 3.5 0 0 1 5.5 15M8.023 11.676c.052-.04.106-.076.162-.107l1.303-.472a.5.5 0 0 0 .289-.38l.196-1.471a.5.5 0 0 0-.12-.385l-1.072-1.066a.5.5 0 0 0-.704 0L7.188 9.353a.5.5 0 0 0-.12.385l.196 1.47a.5.5 0 0 0 .289.381l1.303.472zM11.5 17.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0zM14.5 17.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0zM5.5 9.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0zM5.5 12.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0zM18.5 9.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0zM18.5 12.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0z" />
+  <svg xmlns="http://www.w3.org/2000/svg" version="1.0" width="30.000000pt" height="30.000000pt" viewBox="0 0 225.000000 225.000000" preserveAspectRatio="xMidYMid meet">
+    <g transform="translate(0.000000,225.000000) scale(0.100000,-0.100000)" fill="#000000" stroke="none">
+    <path d="M793 1783 c-7 -2 -13 -17 -13 -32 0 -19 16 -43 60 -86 l60 -59 -39 -41 c-40 -40 -91 -134 -91 -167 0 -16 -12 -18 -109 -18 -70 0 -123 -5 -151 -15 -104 -37 -170 -130 -170 -242 0 -105 43 -180 132 -229 49 -26 63 -29 176 -32 108 -4 122 -6 122 -21 0 -38 62 -141 111 -185 45 -41 137 -86 174 -86 12 0 15 -14 15 -63 0 -73 15 -101 51 -95 23 3 24 7 27 79 l3 76 50 11 c106 25 201 108 239 208 11 30 20 59 20 63 0 5 55 11 123 13 142 4 179 18 244 92 89 101 82 257 -14 351 -61 59 -95 70 -230 73 -68 2 -123 8 -123 12 0 35 -49 128 -90 173 l-49 54 60 59 c59 59 69 80 47 102 -23 23 -44 12 -111 -56 l-68 -69 -52 14 c-65 17 -99 16 -167 -1 l-55 -14 -71 69 c-69 66 -83 74 -111 62z m432 -207 c49 -21 110 -81 134 -131 12 -25 21 -49 21 -55 0 -6 -93 -10 -265 -10 -205 0 -265 3 -265 13 1 30 41 95 82 133 40 37 68 51 133 68 31 8 123 -3 160 -18z m-465 -456 l0 -180 -99 0 c-110 0 -142 8 -184 48 -66 62 -79 148 -33 225 39 68 86 87 214 87 l102 0 0 -180z m630 145 l0 -35 -275 0 -275 0 0 35 0 35 275 0 275 0 0 -35z m307 24 c34 -13 80 -55 99 -91 19 -37 18 -116 -4 -157 -9 -19 -34 -48 -55 -65 -37 -30 -43 -31 -153 -34 l-114 -4 0 181 0 181 99 0 c55 0 112 -5 128 -11z m-307 -169 l0 -30 -275 0 -275 0 0 30 0 30 275 0 275 0 0 -30z m0 -145 l0 -35 -275 0 -275 0 0 35 0 35 275 0 275 0 0 -35z m-10 -119 c0 -1 -5 -17 -11 -35 l-11 -31 -242 0 -243 0 -11 25 c-7 14 -12 30 -12 35 0 6 104 10 265 10 146 0 265 -2 265 -4z m-125 -171 c-85 -53 -195 -53 -280 0 l-40 24 180 0 180 0 -40 -24z"/>
+    </g>
   </svg>
 );

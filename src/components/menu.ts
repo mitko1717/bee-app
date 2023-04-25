@@ -44,6 +44,6 @@ export type IMenuItem = {
     {
       title: "Таблица данных",
       isOptions: false,
-      path: "#",
+      path: "/dataTable",
     },
   ];
