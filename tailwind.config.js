@@ -13,13 +13,13 @@ module.exports = {
         grey: "#EAEAEA",
         orange: "#FEDB60",
         darkOrange: "#C4AA4A",
-        brown: "#665726"
+        brown: "#665726",
       },
       boxShadow: {
         "dp-1": "0px 8px 24px rgba(0, 0, 0, 0.05);",
       },
       fill: {
-        current: 'currentColor',
+        current: "currentColor",
       },
     },
     fontFamily: {
