@@ -86,7 +86,7 @@ const Header = () => {
             >
               <Link
                 to={item.path}
-                className="text-2xl cursor-pointer"
+                className="text-2xl cursor-pointer hover:opacity-70 transition-all duration-300 ease-in-out"
                 onClick={() => showOptionsHandler(item.title)}
               >
                 {item.title}

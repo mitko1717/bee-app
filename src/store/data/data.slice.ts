@@ -1,15 +1,42 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-// import { IDataState, IPost, IQueries } from "../../models/interfaces";
 
-const initialState = {};
+const isUserLogined =
+  typeof window !== "undefined" && localStorage.getItem("isLogined") !== null
+    ? JSON.parse(localStorage.getItem("isLogined") || "")
+    : null;
+
+export interface IUsersInfo {
+  login: string;
+  password: string;
+}
+
+export interface IDataState {
+  isLogined: boolean
+  database: IUsersInfo[]
+}
+
+const initialState: IDataState = {
+  isLogined: isUserLogined !== null ? JSON.parse(isUserLogined) : false,
+  database: [
+    {
+      login: "admin",
+      password: "12345",
+    },
+  ],
+};
 
 export const dataSlice = createSlice({
   name: "data",
   initialState,
   reducers: {
-    // setData(state, action: PayloadAction<IPost[]>) {
-    //   state.stateData = action.payload;
-    // },
+    setIsLoginedTrue(state) {
+      state.isLogined = true;
+      localStorage.setItem("isLogined", "true");
+    },
+    setIsLoginedFalse(state) {
+      state.isLogined = false;
+      localStorage.setItem("isLogined", "false");
+    },
   },
 });
 
