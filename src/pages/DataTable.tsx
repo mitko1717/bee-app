@@ -9,7 +9,7 @@ const DataTable = () => {
     <Layout>
       <div className="relative">
         <p>DataTable</p>
-        <Button text={"ВЕРНУТЬСЯ НА ГЛАВНУЮ"}/>
+        <Button isAbsolute={false} text={"ВЕРНУТЬСЯ НА ГЛАВНУЮ"} />
       </div>
     </Layout>
   );

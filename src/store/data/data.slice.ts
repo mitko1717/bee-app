@@ -11,8 +11,8 @@ export interface IUsersInfo {
 }
 
 export interface IDataState {
-  isLogined: boolean
-  database: IUsersInfo[]
+  isLogined: boolean;
+  database: IUsersInfo[];
 }
 
 const initialState: IDataState = {
