@@ -1,41 +1,54 @@
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-const isUserLogined =
-  typeof window !== "undefined" && localStorage.getItem("isLogined") !== null
-    ? JSON.parse(localStorage.getItem("isLogined") || "")
-    : null;
+// const isUserLogined =
+//   typeof window !== "undefined" && localStorage.getItem("isLogined") !== null
+//     ? JSON.parse(localStorage.getItem("isLogined") || "")
+//     : null;
 
 export interface IUsersInfo {
-  login: string;
+  email: string;
   password: string;
 }
 
 export interface IDataState {
   isLogined: boolean;
   database: IUsersInfo[];
+  isModalOpen: boolean;
 }
 
 const initialState: IDataState = {
-  isLogined: isUserLogined !== null ? JSON.parse(isUserLogined) : false,
+  // isLogined: isUserLogined !== null ? JSON.parse(isUserLogined) : false,
+  isLogined: false,
   database: [
     {
-      login: "admin",
+      email: "admin",
       password: "12345",
     },
   ],
+  isModalOpen: false,
 };
 
 export const dataSlice = createSlice({
   name: "data",
   initialState,
   reducers: {
+    addUserInfoToDV(state, action: PayloadAction<IUsersInfo>) {
+      state.database.push(action.payload)
+    },
     setIsLoginedTrue(state) {
+      console.log('setIsLoginedTrue');
       state.isLogined = true;
-      localStorage.setItem("isLogined", "true");
+      // localStorage.setItem("isLogined", "true");
     },
     setIsLoginedFalse(state) {
       state.isLogined = false;
-      localStorage.setItem("isLogined", "false");
+      // localStorage.setItem("isLogined", "false");
+    },
+    openModal(state) {
+      state.isModalOpen = true;
+    },
+    closeModal(state) {
+      state.isModalOpen = false;
     },
   },
 });

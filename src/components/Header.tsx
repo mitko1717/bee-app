@@ -1,10 +1,15 @@
 import { useState } from "react";
 import { MENU } from "./menu";
 import { Link } from "react-router-dom";
+import { useAppSelector } from "../hooks/redux";
+import { useActions } from "../hooks/actions";
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [isOpenOptions, setIsOpenOptions] = useState<string>("");
+
+  const { isModalOpen, isLogined } = useAppSelector((state) => state.data);
+  const { openModal, setIsLoginedFalse } = useActions();
 
   const showOptionsHandler = (title: string) => {
     isOpenOptions === title ? setIsOpenOptions("") : setIsOpenOptions(title);
@@ -62,8 +67,10 @@ const Header = () => {
                   )}
                 </div>
               ))}
-              <div className=" w-full flex flex-col text-center text-3xl mt-4">
-                Регистрация
+              <div
+                className=" w-full flex flex-col text-center text-3xl mt-4"
+              >
+                {isLogined ? <span onClick={() => !isModalOpen && setIsLoginedFalse()}>Выйти</span> : <span onClick={() => !isModalOpen && openModal()}>Регистрация</span>}
               </div>
             </div>
           )}
@@ -112,7 +119,11 @@ const Header = () => {
               )}
             </div>
           ))}
-          <div className="text-center text-2xl ml-16">Регистрация</div>
+          <div 
+            className="text-center text-2xl ml-16 cursor-pointer hover:opacity-50" 
+            >
+              {isLogined ? <span onClick={() => !isModalOpen && setIsLoginedFalse()}>Выйти</span> : <span onClick={() => !isModalOpen && openModal()}>Регистрация</span>}
+          </div>
         </div>
       </header>
     </>

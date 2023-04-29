@@ -1,24 +1,42 @@
-import { useState } from 'react';
-import LayoutBlock from './LayoutBlock';
-import Title from './Title';
+import { useState } from "react";
+import LayoutBlock from "./LayoutBlock";
+import Title from "./Title";
 
 interface Item {
   id: string;
   name: string;
   component: React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
   selected: boolean;
-  price: number
+  price: number;
 }
 
 const Clothes = () => {
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
   const items: Item[] = [
-    { id: 'item1', name: 'First Item', component: FirstItem, selected: false, price: 100 },
-    { id: 'item2', name: 'Second Item', component: SecondItem, selected: false, price: 100 },
-    { id: 'item3', name: 'Third Item', component: ThirdItem, selected: false, price: 100 },
-  ];  
+    {
+      id: "item1",
+      name: "First Item",
+      component: FirstItem,
+      selected: false,
+      price: 100,
+    },
+    {
+      id: "item2",
+      name: "Second Item",
+      component: SecondItem,
+      selected: false,
+      price: 100,
+    },
+    {
+      id: "item3",
+      name: "Third Item",
+      component: ThirdItem,
+      selected: false,
+      price: 100,
+    },
+  ];
 
-  const handleItemClick = (itemId: string) => {    
+  const handleItemClick = (itemId: string) => {
     setSelectedItems((prevItems) => {
       if (prevItems.includes(itemId)) {
         return prevItems.filter((id) => id !== itemId);
@@ -36,7 +54,13 @@ const Clothes = () => {
           const isSelected = selectedItems.includes(item.id);
           const ItemComponent = item.component;
           return (
-            <div key={item.id} className={`w-16 h-16 mx-2 rounded-2xl ${isSelected ? 'bg-darkOrange' : ''}`} onClick={() => handleItemClick(item.id)}>
+            <div
+              key={item.id}
+              className={`w-16 h-16 mx-2 rounded-2xl ${
+                isSelected ? "bg-darkOrange" : ""
+              }`}
+              onClick={() => handleItemClick(item.id)}
+            >
               <ItemComponent />
             </div>
           );

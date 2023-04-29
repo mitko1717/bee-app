@@ -15,7 +15,7 @@ const Price = () => {
           <span>от</span>
           <FormControl fullWidth sx={{ m: 1 }}>
             <OutlinedInput
-              id="outlined-adornment-amount"
+              // id="outlined-adornment-amount"
               startAdornment={
                 <InputAdornment position="start">$</InputAdornment>
               }
@@ -30,7 +30,7 @@ const Price = () => {
           <span>до</span>
           <FormControl fullWidth sx={{ m: 1 }}>
             <OutlinedInput
-              id="outlined-adornment-amount"
+              // id="outlined-adornment-amount"
               startAdornment={
                 <InputAdornment position="start">$</InputAdornment>
               }
