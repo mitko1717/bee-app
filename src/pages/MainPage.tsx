@@ -7,12 +7,16 @@ import ChooseProducer from "../components/ChooseProducer";
 import Clothes from "../components/Clothes";
 import Layout from "../components/Layout";
 import Price from "../components/Price";
+import { useAppSelector } from "../hooks/redux";
 
 const MainPage = () => {
+  const { dataResult } = useAppSelector((state) => state.data);
+
   return (
     <Layout>
       <div className="text-brown">
         <h2 className="text-2xl mb-8">Фильтр результатов</h2>
+        <div>{JSON.stringify(dataResult)}</div>
         <Line />
 
         <Block>

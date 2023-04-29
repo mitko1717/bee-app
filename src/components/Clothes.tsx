@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useActions } from "../hooks/actions";
 import LayoutBlock from "./LayoutBlock";
 import Title from "./Title";
 
@@ -11,7 +12,8 @@ interface Item {
 }
 
 const Clothes = () => {
-  const [selectedItems, setSelectedItems] = useState<string[]>([]);
+  const { updateDataResult } = useActions();
+  const [selectedItems, setSelectedItems] = useState<Item[]>([]);
   const items: Item[] = [
     {
       id: "item1",
@@ -38,20 +40,29 @@ const Clothes = () => {
 
   const handleItemClick = (itemId: string) => {
     setSelectedItems((prevItems) => {
-      if (prevItems.includes(itemId)) {
-        return prevItems.filter((id) => id !== itemId);
-      } else {
-        return [...prevItems, itemId];
+      const selectedItem = items.find((item) => item.id === itemId);
+      if (selectedItem) {
+        if (prevItems.some((item) => item.id === itemId)) {
+          return prevItems.filter((item) => item.id !== itemId);
+        } else {
+          return [...prevItems, selectedItem];
+        }
       }
+      return prevItems;
     });
   };
+
+  useEffect(() => {
+    const chosenClothes = selectedItems.map((item) => item.id);
+    updateDataResult({ key: "clothes", value: chosenClothes });
+  }, [selectedItems]);
 
   return (
     <LayoutBlock>
       <Title text="Выбрать тип одежды" />
       <div className="flex mt-2">
         {items.map((item) => {
-          const isSelected = selectedItems.includes(item.id);
+          const isSelected = selectedItems.some((selected) => selected.id === item.id);
           const ItemComponent = item.component;
           return (
             <div
@@ -108,6 +119,7 @@ export const SecondItem = () => (
     <path d="M53,12.52l10.54,2.91a1,1,0,0,1,.65.56L75.54,41.94A1,1,0,0,1,75,43.26l-.12,0-9.89,3L66,74.45a1,1,0,0,1-1,1H23a1,1,0,0,1-1-1v0L23,46.26l-9.89-3a1,1,0,0,1-.67-1.24.56.56,0,0,1,0-.12L23.81,16a1,1,0,0,1,.65-.56l10.64-2.9a44.43,44.43,0,0,0,8.91.94,45.47,45.47,0,0,0,9-1Zm1.16,2.41Q50.67,21.56,44,21.55T33.83,14.93l-8.29,2.34L14.75,41.69l8.3,2.48.31-9.36a1,1,0,0,1,1-1h.05a1,1,0,0,1,1,1v0L24.07,73.45H63.93l-1.2-35h2L65,44.16l8.28-2.47L62.57,17.17l-8.41-2.24ZM55,30.48a1,1,0,0,1,1,1v12a1,1,0,0,1-1,1H33a1,1,0,0,1-1-1v-12a1,1,0,0,1,1-1Zm-1,2H34v10H54Zm-14,2v2h2v-2h2v2h2v-2h2v2h4v2H50v2H48v-2H46v2H44v-2H42v2H40v-2H36v-2h2v-2Zm23.67-1.1a1,1,0,0,1,1,1l.07,2.12h-2l-.06-2.08a1,1,0,0,1,1-1ZM52,14.48a31.1,31.1,0,0,1-8,1.08,33.33,33.33,0,0,1-8-1,8.47,8.47,0,0,0,8,4.91,8.53,8.53,0,0,0,8-5Z" />
   </svg>
 );
+
 export const ThirdItem = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"

@@ -31,9 +31,11 @@ const Header = () => {
             {menuOpen ? <CloseBtn /> : <OpenBtn />}
           </button>
 
-          <div className="absolute w-20 flex justify-center items-center top-7 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-            <BeeIcon /> <p className="text-brown text-xl font-bold">bee</p>
-          </div>
+          <Link to={"/"}>
+            <div className="absolute w-20 flex justify-center items-center top-7 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+              <BeeIcon /> <p className="text-brown text-xl font-bold">bee</p>
+            </div>
+          </Link>
 
           {menuOpen && (
             <div className="h-[100vh] bg-darkOrange text-brown flex flex-col justify-center items-center mx-auto w-full gap-y-4">
@@ -67,10 +69,16 @@ const Header = () => {
                   )}
                 </div>
               ))}
-              <div
-                className=" w-full flex flex-col text-center text-3xl mt-4"
-              >
-                {isLogined ? <span onClick={() => !isModalOpen && setIsLoginedFalse()}>Выйти</span> : <span onClick={() => !isModalOpen && openModal()}>Регистрация</span>}
+              <div className=" w-full flex flex-col text-center text-3xl mt-4">
+                {isLogined ? (
+                  <span onClick={() => !isModalOpen && setIsLoginedFalse()}>
+                    Выйти
+                  </span>
+                ) : (
+                  <span onClick={() => !isModalOpen && openModal()}>
+                    Регистрация
+                  </span>
+                )}
               </div>
             </div>
           )}
@@ -80,10 +88,13 @@ const Header = () => {
       {/* Header */}
       <header className="h-[100px] w-full bg-darkOrange hidden md:block md:py-4 md:px-6">
         <div className="flex mx-auto h-full justify-center items-center text-brown gap-x-2">
-          <div className="flex justify-center items-center mr-16">
-            <BeeIcon />
-            <p className="font-bold text-xl">bee</p>
-          </div>
+          <Link to={"/"}>
+            <div className="flex justify-center items-center mr-16">
+              <BeeIcon />
+              <p className="font-bold text-xl">bee</p>
+            </div>
+          </Link>
+
           {MENU.map((item) => (
             <div
               className={`flex relative ${
@@ -119,10 +130,16 @@ const Header = () => {
               )}
             </div>
           ))}
-          <div 
-            className="text-center text-2xl ml-16 cursor-pointer hover:opacity-50" 
-            >
-              {isLogined ? <span onClick={() => !isModalOpen && setIsLoginedFalse()}>Выйти</span> : <span onClick={() => !isModalOpen && openModal()}>Регистрация</span>}
+          <div className="text-center text-2xl ml-16 cursor-pointer hover:opacity-50">
+            {isLogined ? (
+              <span onClick={() => !isModalOpen && setIsLoginedFalse()}>
+                Выйти
+              </span>
+            ) : (
+              <span onClick={() => !isModalOpen && openModal()}>
+                Регистрация
+              </span>
+            )}
           </div>
         </div>
       </header>

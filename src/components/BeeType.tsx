@@ -1,5 +1,6 @@
 import { Checkbox, FormControlLabel } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useActions } from "../hooks/actions";
 import LayoutBlock from "./LayoutBlock";
 import Title from "./Title";
 
@@ -8,6 +9,7 @@ interface CheckboxState {
 }
 
 const BeeType = () => {
+  const { updateDataResult } = useActions();
   const [checkboxState, setCheckboxState] = useState<CheckboxState>({
     "Большая индийская пчела": { checked: false, disabled: true },
     "Медоносная пчела": { checked: false, disabled: true },
@@ -23,6 +25,14 @@ const BeeType = () => {
       });
     };
 
+    useEffect(() => {
+      const checkedKeys = Object.entries(checkboxState)
+        .filter(([key, value]) => value.checked === true)
+        .map(([key]) => key);
+  
+      updateDataResult({ key: "beeType", value: checkedKeys});
+    }, [checkboxState]);
+    
   return (
     <LayoutBlock>
       <Title text="Вид пчёл" />

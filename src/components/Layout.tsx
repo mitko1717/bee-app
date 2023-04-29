@@ -8,7 +8,7 @@ interface LayoutProps {
 
 const Layout = ({ children }: LayoutProps) => {
   return (
-    <div>
+    <div className="text-brown">
       <Header />
       <BasicModal />
       <div className="pt-16 w-4/5 mx-auto">{children}</div>

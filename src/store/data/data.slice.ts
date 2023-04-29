@@ -1,24 +1,38 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-// const isUserLogined =
-//   typeof window !== "undefined" && localStorage.getItem("isLogined") !== null
-//     ? JSON.parse(localStorage.getItem("isLogined") || "")
-//     : null;
+const isUserLogined =
+  typeof window !== "undefined" && localStorage.getItem("isLogined") !== null
+    ? JSON.parse(localStorage.getItem("isLogined") || "")
+    : null;
 
 export interface IUsersInfo {
   email: string;
   password: string;
 }
 
+interface IDataResultUpdate {
+  key: string;
+  value: any;
+}
+
+type DataResultKey = "beeType" | "belly" | "clothes" | "price";
+
+interface DataResult {
+  beeType: string[];
+  belly: string[];
+  clothes: any;
+  price: number;
+}
+
 export interface IDataState {
   isLogined: boolean;
   database: IUsersInfo[];
   isModalOpen: boolean;
+  dataResult: DataResult;
 }
 
 const initialState: IDataState = {
-  // isLogined: isUserLogined !== null ? JSON.parse(isUserLogined) : false,
-  isLogined: false,
+  isLogined: isUserLogined !== null ? JSON.parse(isUserLogined) : false,
   database: [
     {
       email: "admin",
@@ -26,23 +40,32 @@ const initialState: IDataState = {
     },
   ],
   isModalOpen: false,
+  dataResult: {
+    beeType: [],
+    belly: [],
+    clothes: {},
+    price: 0,
+  },
 };
 
 export const dataSlice = createSlice({
   name: "data",
   initialState,
   reducers: {
+    updateDataResult(state, action: PayloadAction<IDataResultUpdate>) {
+      const { key, value } = action.payload;
+      state.dataResult[key as DataResultKey] = value;
+    },
     addUserInfoToDV(state, action: PayloadAction<IUsersInfo>) {
-      state.database.push(action.payload)
+      state.database.push(action.payload);
     },
     setIsLoginedTrue(state) {
-      console.log('setIsLoginedTrue');
       state.isLogined = true;
-      // localStorage.setItem("isLogined", "true");
+      localStorage.setItem("isLogined", "true");
     },
     setIsLoginedFalse(state) {
       state.isLogined = false;
-      // localStorage.setItem("isLogined", "false");
+      localStorage.setItem("isLogined", "false");
     },
     openModal(state) {
       state.isModalOpen = true;

@@ -1,11 +1,17 @@
 import { FormControl, InputAdornment, OutlinedInput } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useActions } from "../hooks/actions";
 import LayoutBlock from "./LayoutBlock";
 import { AirbnbSlider, AirbnbThumbComponent } from "./Slider";
 import Title from "./Title";
 
 const Price = () => {
   const [range, setRange] = useState([0, 50]);
+  const { updateDataResult } = useActions();
+
+  useEffect(() => {
+    updateDataResult({ key: "price", value: range[1] });
+  }, [range]);
 
   return (
     <LayoutBlock>

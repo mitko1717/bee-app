@@ -5,26 +5,35 @@ import {
   Select,
   SelectChangeEvent,
 } from "@mui/material";
-import React, { ChangeEvent, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import { useActions } from "../hooks/actions";
 import LayoutBlock from "./LayoutBlock";
 import Title from "./Title";
 
 interface BeeBelly {
   checked: boolean;
 }
-
 interface SelectedItems {
   [key: string]: BeeBelly;
 }
+const menuItems: string[] = [
+  "Большая индийская пчела",
+  "Медоносная пчела",
+  "Индийская пчела",
+  "Арликова пчела",
+];
 
 const ChooseBeeBelly = () => {
-  const menuItems: string[] = [
-    "Большая индийская пчела",
-    "Медоносная пчела",
-    "Индийская пчела",
-    "Арликова пчела",
-  ];
+  const { updateDataResult } = useActions();
   const [selectedItems, setSelectedItems] = useState<SelectedItems>({});
+
+  useEffect(() => {
+    const checkedKeys = Object.entries(selectedItems)
+      .filter(([key, value]) => value.checked === true)
+      .map(([key]) => key);
+
+    updateDataResult({ key: "belly", value: checkedKeys});
+  }, [selectedItems]);
 
   const handleChange = (event: SelectChangeEvent<string[]>) => {
     const { value } = event.target;
