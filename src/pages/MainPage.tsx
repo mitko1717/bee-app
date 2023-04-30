@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import BeeRating from "../components/BeeRating";
 import BeeType from "../components/BeeType";
 import Button from "../components/Button";
@@ -8,9 +8,55 @@ import Clothes from "../components/Clothes";
 import Layout from "../components/Layout";
 import Price from "../components/Price";
 import { useAppSelector } from "../hooks/redux";
+import { CheckboxState, MainState } from "../models/interfaces";
+
+const initialMainState: MainState = {
+  priceRange: [0, 50],
+  beeType: {
+    "Большая индийская пчела": { checked: false, disabled: true },
+    "Медоносная пчела": { checked: false, disabled: true },
+    "Индийская пчела": { checked: false, disabled: false },
+    "Арликова пчела": { checked: false, disabled: false },
+  },
+  beeBelly: {},
+  chosenClothes: [],
+};
 
 const MainPage = () => {
   const { dataResult } = useAppSelector((state) => state.data);
+  const [mainState, setMainState] = useState(initialMainState);
+
+  const handlePriceRangeChange = (newRange: any) => {
+    setMainState((prevState) => ({
+      ...prevState,
+      priceRange: newRange,
+    }));
+  };
+
+  const handleCheckboxStateChange = (newCheckboxState: CheckboxState) => {
+    setMainState({
+      ...mainState,
+      beeType: newCheckboxState,
+    });
+  };
+
+  const handleSelectedItemsChange = (newItems: any) => {
+    setMainState((prevState) => ({
+      ...prevState,
+      beeBelly: newItems,
+    }));
+  };
+
+  const handleClothesChange = (newItems: any) => {
+    setMainState((prevState) => ({
+      ...prevState,
+      chosenClothes: newItems,
+    }));
+  };
+
+  const handleReset = () => {
+    setMainState({ ...initialMainState });
+  };
 
   return (
     <Layout>
@@ -20,9 +66,15 @@ const MainPage = () => {
         <Line />
 
         <Block>
-          <Price />
+          <Price
+            range={mainState.priceRange}
+            onChange={handlePriceRangeChange}
+          />
           <LineToHide />
-          <BeeType />
+          <BeeType
+            checkboxState={mainState.beeType}
+            onChange={handleCheckboxStateChange}
+          />
         </Block>
 
         <Line />
@@ -35,15 +87,21 @@ const MainPage = () => {
         <Line />
 
         <Block>
-          <ChooseBeeBelly />
+          <ChooseBeeBelly
+            selectedItems={mainState.beeBelly}
+            onChange={handleSelectedItemsChange}
+          />
           <LineToHide />
-          <Clothes />
+          <Clothes
+            chosenClothes={mainState.chosenClothes}
+            onChange={handleClothesChange}
+          />
         </Block>
 
         <Line />
         <div className="flex justify-between mt-8 md:mx-16">
-          <Button isAbsolute={false} text="Записать" />
-          <Button isAbsolute={false} text="Сбросить" />
+          <Button isLink={true} text={"Записать"} />
+          <Button isLink={true} text={"Сбросить"} handleClick={handleReset} />
         </div>
       </div>
     </Layout>

@@ -13,9 +13,16 @@ import Title from "./Title";
 interface BeeBelly {
   checked: boolean;
 }
+
 interface SelectedItems {
   [key: string]: BeeBelly;
 }
+
+interface ChooseBeeBellyProps {
+  selectedItems: SelectedItems;
+  onChange: (newSelectedItems: SelectedItems) => void;
+}
+
 const menuItems: string[] = [
   "Большая индийская пчела",
   "Медоносная пчела",
@@ -23,16 +30,15 @@ const menuItems: string[] = [
   "Арликова пчела",
 ];
 
-const ChooseBeeBelly = () => {
+const ChooseBeeBelly = ({ selectedItems, onChange }: ChooseBeeBellyProps) => {
   const { updateDataResult } = useActions();
-  const [selectedItems, setSelectedItems] = useState<SelectedItems>({});
 
   useEffect(() => {
     const checkedKeys = Object.entries(selectedItems)
       .filter(([key, value]) => value.checked === true)
       .map(([key]) => key);
 
-    updateDataResult({ key: "belly", value: checkedKeys});
+    updateDataResult({ key: "belly", value: checkedKeys });
   }, [selectedItems]);
 
   const handleChange = (event: SelectChangeEvent<string[]>) => {
@@ -47,7 +53,7 @@ const ChooseBeeBelly = () => {
       }
     });
 
-    setSelectedItems(updatedItems);
+    onChange(updatedItems);
   };
 
   const handleItemClick = (item: string) => {
@@ -60,7 +66,7 @@ const ChooseBeeBelly = () => {
       updatedItems[item] = { checked: true };
     }
 
-    setSelectedItems(updatedItems);
+    onChange(updatedItems);
   };
 
   return (

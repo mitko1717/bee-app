@@ -17,7 +17,7 @@ const DataTable = () => {
 
         <div>{JSON.stringify(dataResult)}</div>
         <div className="mb-16" />
-        <Button isAbsolute={false} text={"ВЕРНУТЬСЯ НА ГЛАВНУЮ"} />
+        <Button isLink={true} text={"ВЕРНУТЬСЯ НА ГЛАВНУЮ"} />
       </div>
     </Layout>
   );

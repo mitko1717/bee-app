@@ -4,35 +4,35 @@ import { useActions } from "../hooks/actions";
 import LayoutBlock from "./LayoutBlock";
 import Title from "./Title";
 
-interface CheckboxState {
+interface ICheckboxState {
   [key: string]: { checked: boolean; disabled: boolean };
 }
 
-const BeeType = () => {
+interface BeeTypeProps {
+  checkboxState: ICheckboxState;
+  onChange: (newCheckboxState: ICheckboxState) => void;
+}
+
+const BeeType = ({ checkboxState, onChange }: BeeTypeProps) => {
   const { updateDataResult } = useActions();
-  const [checkboxState, setCheckboxState] = useState<CheckboxState>({
-    "Большая индийская пчела": { checked: false, disabled: true },
-    "Медоносная пчела": { checked: false, disabled: true },
-    "Индийская пчела": { checked: false, disabled: false },
-    "Арликова пчела": { checked: false, disabled: false },
-  });
 
   const handleCheckboxChange =
     (name: string) => (event: React.ChangeEvent<HTMLInputElement>) => {
-      setCheckboxState({
+      const newCheckboxState = {
         ...checkboxState,
         [name]: { ...checkboxState[name], checked: event.target.checked },
-      });
+      };
+      onChange(newCheckboxState);
     };
 
-    useEffect(() => {
-      const checkedKeys = Object.entries(checkboxState)
-        .filter(([key, value]) => value.checked === true)
-        .map(([key]) => key);
-  
-      updateDataResult({ key: "beeType", value: checkedKeys});
-    }, [checkboxState]);
-    
+  useEffect(() => {
+    const checkedKeys = Object.entries(checkboxState)
+      .filter(([key, value]) => value.checked === true)
+      .map(([key]) => key);
+
+    updateDataResult({ key: "beeType", value: checkedKeys });
+  }, [checkboxState]);
+
   return (
     <LayoutBlock>
       <Title text="Вид пчёл" />

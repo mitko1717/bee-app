@@ -2,17 +2,17 @@ import { Link } from "react-router-dom";
 
 interface IButton {
   text: string;
-  isAbsolute: boolean;
+  handleClick?: () => void;
+  isLink: boolean;
 }
 
-const Button = ({ text, isAbsolute }: IButton) => {
+const Button = ({ text, isLink, handleClick }: IButton) => {
   return (
     <button
-      className={`${
-        isAbsolute && "absolute top-5 right-5"
-      } border-brown border text-brown p-2 hover:bg-brown hover:text-orange transition-all duration-300 ease-in-out`}
+      onClick={handleClick}
+      className={`border-brown border text-brown p-2 hover:bg-brown hover:text-orange transition-all duration-300 ease-in-out`}
     >
-      <Link to="/">{text}</Link>
+      {isLink ? <Link to="/">{text}</Link> : <>{text}</>}
     </button>
   );
 };

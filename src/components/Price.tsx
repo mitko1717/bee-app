@@ -1,12 +1,16 @@
 import { FormControl, InputAdornment, OutlinedInput } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useActions } from "../hooks/actions";
 import LayoutBlock from "./LayoutBlock";
 import { AirbnbSlider, AirbnbThumbComponent } from "./Slider";
 import Title from "./Title";
 
-const Price = () => {
-  const [range, setRange] = useState([0, 50]);
+interface PriceProps {
+  range: [number, number];
+  onChange: (newRange: [number, number]) => void;
+}
+
+const Price = ({ range, onChange }: PriceProps) => {
   const { updateDataResult } = useActions();
 
   useEffect(() => {
@@ -21,13 +25,12 @@ const Price = () => {
           <span>от</span>
           <FormControl fullWidth sx={{ m: 1 }}>
             <OutlinedInput
-              // id="outlined-adornment-amount"
               startAdornment={
                 <InputAdornment position="start">$</InputAdornment>
               }
               value={range[0]}
               onChange={(event) => {
-                setRange([Number(event.target.value), range[0]]);
+                onChange([Number(event.target.value), range[0]]);
               }}
             />
           </FormControl>
@@ -36,13 +39,12 @@ const Price = () => {
           <span>до</span>
           <FormControl fullWidth sx={{ m: 1 }}>
             <OutlinedInput
-              // id="outlined-adornment-amount"
               startAdornment={
                 <InputAdornment position="start">$</InputAdornment>
               }
               value={range[1]}
               onChange={(event) => {
-                setRange([range[0], Number(event.target.value)]);
+                onChange([range[0], Number(event.target.value)]);
               }}
             />
           </FormControl>
@@ -55,7 +57,7 @@ const Price = () => {
           index === 0 ? "Minimum price" : "Maximum price"
         }
         onChange={(event, newValue) => {
-          Array.isArray(newValue) && setRange(newValue);
+          Array.isArray(newValue) && onChange([newValue[0], newValue[1]]);
         }}
       />
     </LayoutBlock>
