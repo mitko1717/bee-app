@@ -1,4 +1,24 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { MainState } from "../../models/interfaces";
+
+export const initialMainState: MainState = {
+  priceRange: [0, 50],
+  beeType: {
+    "Большая индийская пчела": { checked: false, disabled: true },
+    "Медоносная пчела": { checked: false, disabled: true },
+    "Индийская пчела": { checked: false, disabled: false },
+    "Арликова пчела": { checked: false, disabled: false },
+  },
+  beeBelly: {},
+  chosenClothes: [],
+};
+
+export const initDataResult = {
+  beeType: [],
+  belly: [],
+  clothes: {},
+  price: 0,
+}
 
 const isUserLogined =
   typeof window !== "undefined" && localStorage.getItem("isLogined") !== null
@@ -29,6 +49,7 @@ export interface IDataState {
   database: IUsersInfo[];
   isModalOpen: boolean;
   dataResult: DataResult;
+  initialState: any;
 }
 
 const initialState: IDataState = {
@@ -46,6 +67,7 @@ const initialState: IDataState = {
     clothes: {},
     price: 0,
   },
+  initialState: initialMainState,
 };
 
 export const dataSlice = createSlice({
@@ -72,6 +94,9 @@ export const dataSlice = createSlice({
     },
     closeModal(state) {
       state.isModalOpen = false;
+    },
+    updateInitState(state, action) {
+      state.initialState = action.payload;
     },
   },
 });

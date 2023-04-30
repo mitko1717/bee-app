@@ -7,27 +7,22 @@ import ChooseProducer from "../components/ChooseProducer";
 import Clothes from "../components/Clothes";
 import Layout from "../components/Layout";
 import Price from "../components/Price";
+import { useActions } from "../hooks/actions";
 import { useAppSelector } from "../hooks/redux";
-import { CheckboxState, MainState } from "../models/interfaces";
-
-const initialMainState: MainState = {
-  priceRange: [0, 50],
-  beeType: {
-    "Большая индийская пчела": { checked: false, disabled: true },
-    "Медоносная пчела": { checked: false, disabled: true },
-    "Индийская пчела": { checked: false, disabled: false },
-    "Арликова пчела": { checked: false, disabled: false },
-  },
-  beeBelly: {},
-  chosenClothes: [],
-};
+import { CheckboxState, Selects } from "../models/interfaces";
+import { initialMainState } from "../store/data/data.slice";
 
 const MainPage = () => {
-  const { dataResult } = useAppSelector((state) => state.data);
-  const [mainState, setMainState] = useState(initialMainState);
+  const { dataResult, initialState } = useAppSelector((state) => state.data);
+  const [mainState, setMainState] = useState(initialState);
+  const { updateInitState } = useActions();
 
-  const handlePriceRangeChange = (newRange: any) => {
-    setMainState((prevState) => ({
+  useEffect(() => {
+    updateInitState(mainState);
+  }, [mainState]);
+
+  const handlePriceRangeChange = (newRange: [number, number]) => {
+    setMainState((prevState: any) => ({
       ...prevState,
       priceRange: newRange,
     }));
@@ -40,15 +35,15 @@ const MainPage = () => {
     });
   };
 
-  const handleSelectedItemsChange = (newItems: any) => {
-    setMainState((prevState) => ({
+  const handleSelectedItemsChange = (newItems: Selects) => {
+    setMainState((prevState: any) => ({
       ...prevState,
       beeBelly: newItems,
     }));
   };
 
-  const handleClothesChange = (newItems: any) => {
-    setMainState((prevState) => ({
+  const handleClothesChange = (newItems: string[]) => {
+    setMainState((prevState: any) => ({
       ...prevState,
       chosenClothes: newItems,
     }));

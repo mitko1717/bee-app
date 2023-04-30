@@ -2,6 +2,10 @@ export interface CheckboxState {
   [key: string]: { checked: boolean; disabled: boolean };
 }
 
+export interface Selects {
+  [key: string]: { checked: boolean };
+}
+
 interface BeeBelly {
   checked: boolean;
 }
