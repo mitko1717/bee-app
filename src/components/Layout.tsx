@@ -11,7 +11,7 @@ const Layout = ({ children }: LayoutProps) => {
     <div className="text-brown">
       <Header />
       <BasicModal />
-      <div className="pt-16 w-4/5 mx-auto">{children}</div>
+      <div className="pt-16 w-11/12 md:w-4/5 mx-auto">{children}</div>
     </div>
   );
 };

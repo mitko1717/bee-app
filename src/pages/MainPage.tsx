@@ -1,4 +1,5 @@
 import { ReactNode, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import BeeRating from "../components/BeeRating";
 import BeeType from "../components/BeeType";
 import Button from "../components/Button";
@@ -13,19 +14,23 @@ import { CheckboxState, Selects } from "../models/interfaces";
 import { initialMainState } from "../store/data/data.slice";
 
 const MainPage = () => {
-  const { dataResult, initialState } = useAppSelector((state) => state.data);
+  const { dataResult, initialState, savedResults } = useAppSelector(
+    (state) => state.data
+  );
   const [mainState, setMainState] = useState(initialState);
-  const { updateInitState } = useActions();
+  const { updateInitState, saveDataResult } = useActions();
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     updateInitState(mainState);
   }, [mainState]);
 
   const handlePriceRangeChange = (newRange: [number, number]) => {
-    setMainState((prevState: any) => ({
-      ...prevState,
+    setMainState({
+      ...mainState,
       priceRange: newRange,
-    }));
+    });
   };
 
   const handleCheckboxStateChange = (newCheckboxState: CheckboxState) => {
@@ -36,17 +41,31 @@ const MainPage = () => {
   };
 
   const handleSelectedItemsChange = (newItems: Selects) => {
-    setMainState((prevState: any) => ({
-      ...prevState,
+    setMainState({
+      ...mainState,
       beeBelly: newItems,
-    }));
+    });
   };
 
   const handleClothesChange = (newItems: string[]) => {
-    setMainState((prevState: any) => ({
-      ...prevState,
+    setMainState({
+      ...mainState,
       chosenClothes: newItems,
-    }));
+    });
+  };
+
+  const handleSend = async () => {
+    if (
+      dataResult.price <= 1 ||
+      dataResult.beeType.length === 0 ||
+      dataResult.belly.length === 0 ||
+      dataResult.clothes.length === 0
+    ) {
+      return alert("choose all form fileds or make price positive");
+    }
+    saveDataResult();
+    handleReset();
+    navigate("/dataTable");
   };
 
   const handleReset = () => {
@@ -57,9 +76,7 @@ const MainPage = () => {
     <Layout>
       <div className="text-brown">
         <h2 className="text-2xl mb-8">Фильтр результатов</h2>
-        <div>{JSON.stringify(dataResult)}</div>
         <Line />
-
         <Block>
           <Price
             range={mainState.priceRange}
@@ -71,16 +88,13 @@ const MainPage = () => {
             onChange={handleCheckboxStateChange}
           />
         </Block>
-
         <Line />
-
         <Block>
           <BeeRating />
           <LineToHide />
           <ChooseProducer />
         </Block>
         <Line />
-
         <Block>
           <ChooseBeeBelly
             selectedItems={mainState.beeBelly}
@@ -95,7 +109,7 @@ const MainPage = () => {
 
         <Line />
         <div className="flex justify-between mt-8 md:mx-16">
-          <Button isLink={true} text={"Записать"} />
+          <Button isLink={true} text={"Записать"} handleClick={handleSend} />
           <Button isLink={true} text={"Сбросить"} handleClick={handleReset} />
         </div>
       </div>

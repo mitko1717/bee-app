@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 function App() {
   return (
-    <div className="pb-16 bg-orange h-full">
+    <div className="pb-16 bg-orange h-auto min-h-full">
       <Router>
         <Routes>
           <Route path="/" element={<MainPage />} />

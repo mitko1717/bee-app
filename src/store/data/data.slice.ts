@@ -18,7 +18,7 @@ export const initDataResult = {
   belly: [],
   clothes: {},
   price: 0,
-}
+};
 
 const isUserLogined =
   typeof window !== "undefined" && localStorage.getItem("isLogined") !== null
@@ -37,12 +37,15 @@ interface IDataResultUpdate {
 
 type DataResultKey = "beeType" | "belly" | "clothes" | "price";
 
-interface DataResult {
+export type DataResult = {
   beeType: string[];
   belly: string[];
-  clothes: any;
+  clothes: string[];
   price: number;
-}
+  number?: number;
+  time?: string;
+  [index: string]: any;
+};
 
 export interface IDataState {
   isLogined: boolean;
@@ -50,6 +53,7 @@ export interface IDataState {
   isModalOpen: boolean;
   dataResult: DataResult;
   initialState: any;
+  savedResults: DataResult[];
 }
 
 const initialState: IDataState = {
@@ -64,10 +68,11 @@ const initialState: IDataState = {
   dataResult: {
     beeType: [],
     belly: [],
-    clothes: {},
+    clothes: [],
     price: 0,
   },
   initialState: initialMainState,
+  savedResults: [],
 };
 
 export const dataSlice = createSlice({
@@ -97,6 +102,13 @@ export const dataSlice = createSlice({
     },
     updateInitState(state, action) {
       state.initialState = action.payload;
+    },
+    saveDataResult(state) {
+      state.savedResults.push({
+        ...state.dataResult,
+        number: Math.floor(100000 + Math.random() * 900000),
+        time: new Date().toLocaleDateString("en-US"),
+      });
     },
   },
 });
